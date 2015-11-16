@@ -268,7 +268,7 @@ namespace Stock.Trader.HuaTai
 
         #region 接口实现
 
-        WebStockTrader wst = null;
+//        WebStockTrader wst = null;
         /// <summary>
         /// 检测
         /// </summary>
@@ -362,7 +362,7 @@ namespace Stock.Trader.HuaTai
 
         protected override TraderResult internalCancelStock(int entrustNo)
         {
-            return wst.CancelStock(entrustNo);
+            return null;
             // ClickCancelTreeViewItem();
         }
 
@@ -370,7 +370,7 @@ namespace Stock.Trader.HuaTai
         {
             // 刷新
             Win32API.PostMessage(hWnd, Win32Code.WM_KEYDOWN, Win32Code.VK_F5, 0);
-            wst.Keep();
+//            wst.Keep();
         }
 
         private IntPtr findWndClass(IntPtr hWnd, IntPtr child)
