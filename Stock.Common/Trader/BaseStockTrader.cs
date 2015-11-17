@@ -86,7 +86,7 @@ namespace Stock.Trader
             return null;
         }
 
-        public TraderResult CancelStock(string entrustNo)
+        public TraderResult CancelStock(int entrustNo)
         {
             TraderResult ret = internalCancelStock(entrustNo);
             switch (ret.Code)
@@ -104,7 +104,7 @@ namespace Stock.Trader
             }
         }
 
-        protected virtual TraderResult internalCancelStock(string entrustNo)
+        protected virtual TraderResult internalCancelStock(int entrustNo)
         {
             return null;
         }
@@ -128,6 +128,29 @@ namespace Stock.Trader
         }
 
         protected virtual TraderResult internalGetTodayTradeList() {
+            return null;
+        }
+
+        public TraderResult GetTodayEntrustList()
+        {
+            TraderResult ret = internalGetTodayEntrustList();
+            switch (ret.Code)
+            {
+                case TraderResultEnum.TIMEOUT:
+                    return GetTodayEntrustList();
+                case TraderResultEnum.UNLOGIN:
+                    Login();
+                    return GetTodayEntrustList();
+                case TraderResultEnum.ERROR:
+                case TraderResultEnum.SUCCESS:
+                    return ret;
+                default:
+                    return null;
+            }
+        }
+
+        protected virtual TraderResult internalGetTodayEntrustList()
+        {
             return null;
         }
 

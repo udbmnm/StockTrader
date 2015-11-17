@@ -28,7 +28,26 @@ using System.Text;
 
 namespace Stock.Trader
 {
-    public class TradingList 
+    /// <summary>
+    /// 成交列表
+    /// </summary>
+    public class TradingList : List<TradingList.TradingItem>
     {
+        public class TradingItem
+        {
+            public string StockName { get; set; }
+            public string Date { get; set; }
+            public string bs_name { get; set; }
+            public int BusinessAmount { get; set; }
+            public float BusinessPrice { get; set; }
+            public float BusinessBalance { get; set; }
+            public string StockCode { get; set; }
+            public int EntrustNo { get; set; }
+            public int SerialNo { get; set; }
+            public string StockAccount { get; set; }
+            public string ExchangeType { get; set; }
+            public string Remark { get; set; }
+        }
+
     }
 }

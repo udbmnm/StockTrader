@@ -59,7 +59,7 @@ namespace Stock.Market.Sina
                 Thread.Sleep(2000);
                 bool isSent = false;
                 int n = 150;
-                if (s_codes.Count == 0)
+                if (s_codes.Count == 0 && codes.Count != 0)
                 {
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < codes.Count; i++)

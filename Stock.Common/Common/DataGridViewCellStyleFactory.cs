@@ -27,9 +27,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
-using Stock.Trader.Settings;
+using Stock.Account.Settings;
 
-namespace Stock.Common.Common
+namespace Stock.Common
 {
     public class DataGridViewCellStyleFactory
     {

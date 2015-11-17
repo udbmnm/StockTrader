@@ -82,12 +82,13 @@ namespace Stock.Trader.HuaTai
         }
     }
 
-    public class LoginPostInfo
+    /// <summary>
+    /// 登录
+    /// </summary>
+    public class LoginPostRequest
     {
-           // Methods
-        public LoginPostInfo() { }
+        public LoginPostRequest() { }
 
-        // Properties
         public string userType
         {
             get
@@ -353,6 +354,9 @@ namespace Stock.Trader.HuaTai
 
     }
 
+    /// <summary>
+    /// 获取资金信息
+    /// </summary>
     public class GetFundsRequest : Request
     {
         // uid=153-0679-7959208&cssweb_type=GET_FUNDS&version=1&custid=666600&op_branch_no=17&

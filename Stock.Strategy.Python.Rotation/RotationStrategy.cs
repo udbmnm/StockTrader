@@ -50,9 +50,6 @@ namespace Stock.Strategy.Python.Rotation
             {
                 return "分级A轮动模型";
             }
-            set
-            {
-            }
         }
 
         public override string Description
@@ -60,9 +57,6 @@ namespace Stock.Strategy.Python.Rotation
             get
             {
                 return "参照西胖子的轮动模型，本着轮动就是收益的目标。建议选择约定收益率一样的分级A 作为轮动标的,流动性非常好的标的。";
-            }
-            set
-            {
             }
         }
 

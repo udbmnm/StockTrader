@@ -111,19 +111,22 @@ namespace Stock.Market
         /// <param name="strategy">策略实例</param>
         public void RegisterStrategy(IStrategy strategy)
         {
-            foreach (string s in strategy.StockPool)
+            if (strategy.Enabled)
             {
-                string code = StockUtil.GetFullCode(s);
-                if (!StockMarketManager.bidCache.ContainsKey(code))
+                foreach (string s in strategy.StockPool)
                 {
-                    StockMarketManager.bidCache.Add(code, new BidCacheQueue(code));
+                    string code = StockUtil.GetFullCode(s);
+                    if (!StockMarketManager.bidCache.ContainsKey(code))
+                    {
+                        StockMarketManager.bidCache.Add(code, new BidCacheQueue(code));
+                    }
+                    StockMarketManager.bidCache[code].OnBidChange += strategy.OnStockDataChanged;
                 }
-                StockMarketManager.bidCache[code].OnBidChange += strategy.OnStockDataChanged;
-            }
 
-            // 调用策略
-            this.OnTicket += strategy.OnTicket;
-            strategy.Run();
+                // 调用策略
+                this.OnTicket += strategy.OnTicket;
+                strategy.Run();
+            }
         }
        
 

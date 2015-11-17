@@ -110,7 +110,7 @@ namespace Stock.Trader.HuaTai
                 MessageBox.Show("获取验证码失败");
             }
 
-            LoginPostInfo t = new LoginPostInfo
+            LoginPostRequest t = new LoginPostRequest
             {
                 // TODO: 自动获取MAC, HDD INFO
                 macaddr = "00:0C:29:1A:B4:32",
@@ -123,7 +123,7 @@ namespace Stock.Trader.HuaTai
                 vcode = verifyCode
             };
 
-            string postString = URLHelper.GetData<LoginPostInfo>(t, this.encoding);
+            string postString = URLHelper.GetData<LoginPostRequest>(t, this.encoding);
             byte[] postData = Encoding.UTF8.GetBytes(postString);
             this.httpClient.Encoding = this.encoding;
 
@@ -419,13 +419,14 @@ namespace Stock.Trader.HuaTai
                         FetchBalance = item.fetch_balance,
                         MarketValue = item.market_value,
                         AssetBalance = item.asset_balance
-                   };
+                    };
                     break;
                 }
             }
 
             return fundInfo;
         }
+
         /// <summary>
         /// 获取股票持仓
         /// </summary>
@@ -540,47 +541,6 @@ namespace Stock.Trader.HuaTai
 
             // return result;
         }
-
-        public string PurchaseFundSZ(string code, float total)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string RedempteFundSZ(string code, int num)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string MergeFundSZ(string code, int num)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string PartFundSZ(string code, int num)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string PurchaseFundSH(string code, float total)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string RedempteFundSH(string code, int num)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string MergeFundSH(string code, int num)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string PartFundSH(string code, int num)
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
     }
 }

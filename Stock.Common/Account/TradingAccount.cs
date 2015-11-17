@@ -37,38 +37,6 @@ namespace Stock.Account
     /// </summary>
     public class TradingAccount
     {
-        //public class StockHolderInfo {
-        //    public String StockAccount { get; set; }
-        //    public String StockCode { get; set; }
-        //    public String StockName { get; set; }
-        //    public String ExchangeName { get; set; }
-        //    public decimal MarketValue { get; set; }
-        //    public decimal CostPrice { get; set; }
-        //    public int CurrentAmount { get; set; }
-        //    public int EnableAmount { get; set; }
-        //    public decimal IncomeBalance { get; set; }  // 冻结
-        //    public decimal KeepCostPrice { get; set; }
-        //    public decimal LastPrice { get; set; }
-
-        //    /// <summary>
-        //    /// 计算手续费
-        //    /// </summary>
-        //    private void ComputeXXX() {
-        //        // 计算手续费
-
-        //        // 计算税金
-
-        //        // 计算成本
-
-        //        // 调整持仓
-
-        //        // 计算市值
-
-        //        // 调整盈亏
-        //    }
-
-        // }
-
         public class FundInfo {
             public int MoneyType { get; set; }
             public string MoneyName { get; set; }

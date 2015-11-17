@@ -26,25 +26,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Stock.Common
+namespace Stock.Account
 {
-    /// <summary>
-    /// 超时监测，确保每个下单操作不会挂起
-    /// </summary>
-    public class TimeoutChecker
+    public class StrategyDesc
     {
-        long _timeout;              //超时时间  
-        Action<Delegate> _proc;               // 业务函数代码  
-        Action<Delegate> _procHandle;         // 业务函数包装，超时处理
-        Action<Delegate> _timeoutHandle;      // 超时后处理事件  
-
-        public TimeoutChecker()
-        {
-        }
-
-        public void wait(long timeout) {
-            this._timeout = timeout;
-            this._procHandle.BeginInvoke(null, null, null);
-        }
+        public virtual int Id { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string Desc { get; set; }
+        public virtual string Dll { get; set; }
+        public virtual string Clazz { get; set; }
+        public virtual bool Enabled { get; set; }
+        public virtual int Group { get; set; }
+        public virtual DateTime Date { get; set; }
     }
 }

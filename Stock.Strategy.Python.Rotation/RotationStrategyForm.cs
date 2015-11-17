@@ -46,10 +46,10 @@ namespace Stock.Strategy.Python.Rotation
         private void btnOK_Click(object sender, EventArgs e)
         {
             RotationStrategy rs = (RotationStrategy)this.strategy;
-            rs.IsValid = this.chkEnable.Checked;
+            rs.Enabled = this.chkEnable.Checked;
             rs.BasePoint = (int)this.numBasePoint.Value;
 
-            if (rs.IsValid)
+            if (rs.Enabled)
                 StrategyManager.Instance.AddMyStrategy(this.strategy);
             else
                 StrategyManager.Instance.DeleteMyStrategy(this.strategy);

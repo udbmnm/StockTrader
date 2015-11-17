@@ -27,21 +27,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Stock.Strategy;
-using Stock.Common;
+using Stock.Sqlite;
 using Stock.Market;
 using System.Collections;
 using Microsoft.Scripting.Hosting;
-using Stock.Trader;
+using Stock.Account;
 using System.Windows.Forms;
 using Stock.Strategy.Python;
-using Stock.Trader.Settings;
+using Stock.Account.Settings;
 using System.Threading;
+using Stock.Trader;
+using Stock.Common;
 
 namespace Stock.Strategy
 {
     public abstract class BaseStrategy : IStrategy, IStockTrader, IControlOperation
     {
-        private bool isValid;
+        private bool isValid = true;
         protected ICollection<string> stockPool = new List<string>();
         private IDictionary<String, BidCacheQueue> bids;
 
@@ -53,6 +55,7 @@ namespace Stock.Strategy
             set { this.control = value; }
         }
 
+        public TradingAccount AccountInfo { get; set; }
 
         #region 实现策略描述接口
 
@@ -62,13 +65,13 @@ namespace Stock.Strategy
         public virtual void Run()
         {
             // 检测挂单是否成交，指定时间内未成交撤单
-            DateTime now = DateTime.Now;
-            int span = int.Parse(Configure.GetStockTraderItem(Configure.CANCEL_TIME_SPAN));
+            //DateTime now = DateTime.Now;
+            //int span = int.Parse(Configure.GetStockTraderItem(Configure.CANCEL_TIME_SPAN));
 
-            foreach (EntrustInfo item in entrustNos.Values)
-            {
-                CancelStock(item.No);
-            }
+            //foreach (EntrustInfo item in entrustNos.Values)
+            //{
+            //    CancelStock(item.No);
+            //}
         }
 
         public virtual void OnStockDataChanged(object sender, Stock.Market.Bid data)
@@ -76,8 +79,7 @@ namespace Stock.Strategy
             // NOTHING TO DO
         }
 
-        public abstract void OnTicket(object sender);
-
+        public virtual void OnTicket(object sender) { }
 
         public void AddStock(string code)
         {
@@ -96,19 +98,18 @@ namespace Stock.Strategy
             stockPool.Remove(code);
         }
 
+        public int Id { get; set; }
         public abstract string Name
         {
             get;
-            set;
         }
 
         public abstract string Description
         {
             get;
-            set;
         }
 
-        public bool IsValid
+        public bool Enabled
         {
             get
             {
@@ -135,7 +136,6 @@ namespace Stock.Strategy
             try
             {
                 control = CreateControl();
-                this.Init();
             }
             catch (Exception e)
             {
@@ -180,7 +180,7 @@ namespace Stock.Strategy
             // trader.Init();
         }
 
-        public TraderResult SellStock(string code, float price, int num)
+        public virtual TraderResult SellStock(string code, float price, int num)
         {
             LogHelper.WriteLog(this.GetType(),"BaseStrategy.SellStock");
             TraderResult result = trader.SellStock(code, price, num);
@@ -193,10 +193,11 @@ namespace Stock.Strategy
                     AddEntrustNo(result.EntrustNo);
                     break;
             }
+            WSClient.Instance.SendMessage(String.Format("SellStock(code {0}, price {1}, num {2})", code, price, num));
             return result;
         }
 
-        public TraderResult BuyStock(string code, float price, int num)
+        public virtual TraderResult BuyStock(string code, float price, int num)
         {
             LogHelper.WriteLog(this.GetType(), "BaseStrategy.BuyStock");
             TraderResult result =trader.BuyStock(code, price, num);
@@ -209,10 +210,11 @@ namespace Stock.Strategy
                     AddEntrustNo(result.EntrustNo);
                     break;
             }
+            WSClient.Instance.SendMessage(String.Format("BuyStock(code {0}, price {1}, num {2})", code, price, num));
             return result;
         }
 
-        public TraderResult CancelStock(string entrustNo)
+        public TraderResult CancelStock(int entrustNo)
         {
             LogHelper.WriteLog(this.GetType(), "BaseStrategy.CancelStock");
             TraderResult result = trader.CancelStock(entrustNo);
@@ -225,13 +227,20 @@ namespace Stock.Strategy
                     AddEntrustNo(result.EntrustNo);
                     break;
             }
+            WSClient.Instance.SendMessage(String.Format("CancelStock(entrustNo {0})", entrustNo));
             return result;
         }
 
         public TraderResult GetTodayTradeList()
         {
-            LogHelper.WriteLog(this.GetType(), "BaseStrategy.GetTransactionInfo");
+            LogHelper.WriteLog(this.GetType(), "BaseStrategy.GetTodayTradeList");
             return trader.GetTodayTradeList();
+        }
+
+        public TraderResult GetTodayEntrustList()
+        {
+            LogHelper.WriteLog(this.GetType(), "BaseStrategy.GetTodayEntrustList");
+            return trader.GetTodayEntrustList();
         }
 
         public void Keep()
@@ -240,49 +249,11 @@ namespace Stock.Strategy
             trader.Keep();
         }
 
-        public TraderResult GetTradingAccountInfo()
+        public virtual TraderResult GetTradingAccountInfo()
         {
+            LogHelper.WriteLog(this.GetType(), "BaseStrategy.GetTradingAccountInfo");
+            this.AccountInfo = (TradingAccount)trader.GetTradingAccountInfo().Result;
             return trader.GetTradingAccountInfo();
-        }
-
-        public string PurchaseFundSZ(string code, float total)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string RedempteFundSZ(string code, int num)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string MergeFundSZ(string code, int num)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string PartFundSZ(string code, int num)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string PurchaseFundSH(string code, float total)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string RedempteFundSH(string code, int num)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string MergeFundSH(string code, int num)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string PartFundSH(string code, int num)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion
@@ -313,20 +284,21 @@ namespace Stock.Strategy
         #endregion
 
         #region 撤单相关部分
-        private IDictionary<string, EntrustInfo> entrustNos = new Dictionary<string, EntrustInfo>();
-        private class EntrustInfo
+        protected IDictionary<int, EntrustInfo> entrustNos = new Dictionary<int, EntrustInfo>();
+        protected class EntrustInfo
         {
-            public string No;
+            public int No;
             public DateTime Time;
         }
 
-        private void AddEntrustNo(string entrustNo)
+        private void AddEntrustNo(int entrustNo)
         {
 
-            entrustNos.Add(entrustNo, new EntrustInfo { No = entrustNo, Time = DateTime.Now });
+            if(!entrustNos.ContainsKey(entrustNo))
+                entrustNos.Add(entrustNo, new EntrustInfo { No = entrustNo, Time = DateTime.Now });
         }
 
-        private void RemoveEntrustNo(string entrustNo)
+        private void RemoveEntrustNo(int entrustNo)
         {
             entrustNos.Remove(entrustNo);
         }
