@@ -42,7 +42,9 @@ namespace Stock.Account
         public virtual float CostPrice { get; set; }
         public virtual int CurrentAmount { get; set; }
         public virtual int EnableAmount { get; set; }
-        public virtual float IncomeAmount { get; set; }  // 冻结
+        public virtual int IncomeAmount { get; set; }  // 冻结
         public virtual float LastPrice { get; set; }
+
+        public virtual DateTime Date { get; set; }
     }
 }

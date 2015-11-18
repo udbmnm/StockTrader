@@ -37,6 +37,7 @@ namespace Stock.Account
     public class EntrustRecord
     {
         public virtual int Id { get; set; }
+        public virtual int StrategyId { get; set; }
         public virtual String StockCode { get; set; }
         private string stockName = "";
         public virtual String StockName {
