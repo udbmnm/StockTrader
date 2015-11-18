@@ -23,16 +23,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Net;
-using Stock.Sqlite;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Reflection;
-using System.Web;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using System.Diagnostics;
