@@ -118,6 +118,7 @@
     <Compile Include="Trader\BaseStockTrader.cs" />
     <Compile Include="Trader\IFundTrader.cs" />
     <Compile Include="Trader\IStockTrader.cs" />
+    <Compile Include="Trader\MockStockTrader.cs" />
     <Compile Include="Trader\StockTraderManager.cs" />
     <Compile Include="Trader\TraderResult.cs" />
     <Compile Include="Account\TradingAccount.cs" />
