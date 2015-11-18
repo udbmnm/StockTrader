@@ -456,7 +456,7 @@ namespace Stock.Trader.HuaTai
                         CostPrice = si.cost_price,
                         CurrentAmount = si.current_amount,
                         EnableAmount = si.enable_amount,
-                        IncomeAmount = si.income_balance,
+                        IncomeAmount = (int)si.income_balance,
                         KeepCostPrice = si.keep_cost_price,
                         LastPrice = si.last_price
                     };
