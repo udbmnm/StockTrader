@@ -8,7 +8,7 @@
     <ProjectGuid>{38C9D0F7-2C89-4918-AA43-2CA476924F6B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Stock.Trader</RootNamespace>
+    <RootNamespace>Stock.Account</RootNamespace>
     <AssemblyName>StockTrader</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
@@ -36,6 +36,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -110,6 +114,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\StockTraderPrivate\Stock.Strategy.RotationB\Stock.Strategy.RotationB.csproj">
+      <Project>{C10192F9-9EB4-44E5-90D6-DA8852F929F8}</Project>
+      <Name>Stock.Strategy.RotationB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Stock.Common\Stock.Common.csproj">
       <Project>{20C7D12A-F795-454C-8437-C09FDEA02839}</Project>
       <Name>Stock.Common</Name>

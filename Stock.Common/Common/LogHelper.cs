@@ -32,16 +32,25 @@ namespace Stock.Common
     /// <summary>
     /// 
     /// </summary>
+    public delegate void LogArrivedDelegate(Type t, String log);
     public class LogHelper
     {
+
+        private static LogHelper instance = new LogHelper();
+        public static LogHelper Instance
+        {
+            get { return instance; }
+        }
+        public event LogArrivedDelegate OnLogArrived;
         /// <summary>
         /// 写LOG
         /// </summary>
         /// <param name="t"></param>
         /// <param name="message"></param>
-        public static void WriteLog(Type t, String message)
+        public void WriteLog(Type t, String message)
         {
-            Console.WriteLine(t.ToString() + ": " + message);
+            if (OnLogArrived != null)
+                OnLogArrived(t, message);
         }
 
         /// <summary>
@@ -50,10 +59,10 @@ namespace Stock.Common
         /// <param name="t"></param>
         /// <param name="message"></param>
         /// <param name="ex"></param>
-        public static void WriteErrorLog(Type t, String message, Exception ex)
+        public void WriteErrorLog(Type t, String message, Exception ex)
         {
-            Console.WriteLine(t.ToString() + ": " + message);
-            Console.WriteLine(ex.StackTrace);
+            if (OnLogArrived != null)
+                OnLogArrived(t, "Error: " + message);
         }
     }
 }

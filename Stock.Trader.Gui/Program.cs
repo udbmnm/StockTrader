@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Stock.Local.SqlLite.Hibernate;
 
 namespace StockTrader
 {
@@ -39,7 +40,17 @@ namespace StockTrader
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            SqliteHelper instance = SqliteHelper.Instance;
+            try
+            {
+                instance.OpenSession();
+                // instance.InitDatabase();
+                Application.Run(new Form1());
+            }
+            finally
+            {
+                instance.CloseSession();
+            }
         }
     }
 }

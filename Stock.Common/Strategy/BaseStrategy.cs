@@ -182,7 +182,7 @@ namespace Stock.Strategy
 
         public virtual TraderResult SellStock(string code, float price, int num)
         {
-            LogHelper.WriteLog(this.GetType(),"BaseStrategy.SellStock");
+            LogHelper.Instance.WriteLog(this.GetType(),"BaseStrategy.SellStock");
             TraderResult result = trader.SellStock(code, price, num);
             switch (result.Code)
             {
@@ -199,7 +199,7 @@ namespace Stock.Strategy
 
         public virtual TraderResult BuyStock(string code, float price, int num)
         {
-            LogHelper.WriteLog(this.GetType(), "BaseStrategy.BuyStock");
+            LogHelper.Instance.WriteLog(this.GetType(), "BaseStrategy.BuyStock");
             TraderResult result =trader.BuyStock(code, price, num);
             switch (result.Code)
             {
@@ -216,7 +216,7 @@ namespace Stock.Strategy
 
         public TraderResult CancelStock(int entrustNo)
         {
-            LogHelper.WriteLog(this.GetType(), "BaseStrategy.CancelStock");
+            LogHelper.Instance.WriteLog(this.GetType(), "BaseStrategy.CancelStock");
             TraderResult result = trader.CancelStock(entrustNo);
             switch (result.Code)
             {
@@ -233,25 +233,25 @@ namespace Stock.Strategy
 
         public TraderResult GetTodayTradeList()
         {
-            LogHelper.WriteLog(this.GetType(), "BaseStrategy.GetTodayTradeList");
+            LogHelper.Instance.WriteLog(this.GetType(), "BaseStrategy.GetTodayTradeList");
             return trader.GetTodayTradeList();
         }
 
         public TraderResult GetTodayEntrustList()
         {
-            LogHelper.WriteLog(this.GetType(), "BaseStrategy.GetTodayEntrustList");
+            LogHelper.Instance.WriteLog(this.GetType(), "BaseStrategy.GetTodayEntrustList");
             return trader.GetTodayEntrustList();
         }
 
         public void Keep()
         {
-            LogHelper.WriteLog(this.GetType(), "BaseStrategy.Keep");
+            LogHelper.Instance.WriteLog(this.GetType(), "BaseStrategy.Keep");
             trader.Keep();
         }
 
         public virtual TraderResult GetTradingAccountInfo()
         {
-            LogHelper.WriteLog(this.GetType(), "BaseStrategy.GetTradingAccountInfo");
+            LogHelper.Instance.WriteLog(this.GetType(), "BaseStrategy.GetTradingAccountInfo");
             this.AccountInfo = (TradingAccount)trader.GetTradingAccountInfo().Result;
             return trader.GetTradingAccountInfo();
         }

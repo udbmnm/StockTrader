@@ -31,31 +31,80 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-using Stock.Trader;
+using Stock.Account;
 using Stock.Strategy;
 using Stock.Strategy.Python;
 using Stock.Market;
 using System.Reflection;
 using System.Window;
-using Stock.Common;
-using Stock.Trader.Settings;
+using Stock.Sqlite;
+using Stock.Account.Settings;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Threading;
+using Stock.Trader;
+using Stock.Local.SqlLite.Hibernate;
+using Stock.Common;
 
 namespace StockTrader
 {
     public partial class Form1 : Form
     {
-        Stock.Trader.XiaDan xiadan = null;
+        Stock.Account.XiaDan xiadan = null;
         private System.Timers.Timer keepLoginTimer = new System.Timers.Timer();
       
         public Form1()
         {
             InitializeComponent();
-            InitStrategyMenu();
-            InitListView();
 
-            xiadan = Stock.Trader.XiaDan.Instance;
+            xiadan = Stock.Account.XiaDan.Instance;
+            xiadan.Init();
+
+            LogHelper.Instance.OnLogArrived += new LogArrivedDelegate(LogHelper_OnLogArrived);
+        }
+
+        private void LogHelper_OnLogArrived(Type t, string log)
+        {
+            txtLog.AppendText(String.Format("时间：{0}, {1}\r\n", DateTime.Now, log));
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            string message = "";
+            ReceivedAllStrategy(message);
+            ReceivedMyStrategy(message);
+        }
+
+        void ReceivedAllStrategy(string message)
+        {
+            // FIXME:
+            StrategyDesc sd1 = new StrategyDesc
+            {
+                Name = "python策略示例",
+                Desc = "策略示例",
+                Dll = "Stock.Strategy.Python.Rotation.dll",
+                Clazz = "Stock.Strategy.Python.Rotation.RotationStrategy",
+                Enabled = true,
+                Group = 0,
+                Date = DateTime.Now
+            };
+            this.Invoke((MethodInvoker)delegate
+            {
+                // 从服务器获取策略数据，
+                StrategyDesc[] sds = new StrategyDesc[] { sd1 };  // LoadStrategyList(message);
+                InitStrategyMenu(sds.ToArray<StrategyDesc>());
+            });
+        }
+
+        void ReceivedMyStrategy(string message)
+        {
+            IList<StrategyDesc> sds = SqliteHelper.Instance.List<StrategyDesc>("FROM StrategyDesc");
+            this.Invoke((MethodInvoker)delegate
+            {
+                InitListView(sds.ToArray<StrategyDesc>());
+            });
         }
 
         private void _Start()
@@ -92,87 +141,70 @@ namespace StockTrader
             }
         }
 
-
         /// <summary>
         /// 初始化右键菜单策略
         /// </summary>
-        private void InitStrategyMenu()
+        private void InitStrategyMenu(StrategyDesc[] sds)
         {
-            // 从服务器获取策略数据，
-            StrategyDesc[] sds = LoadStrategyList();
 
             foreach (var sd in sds)
             {
                 ToolStripMenuItem tsmi = new ToolStripMenuItem();
-                tsmi.Text = sd.name;
+                tsmi.Text = sd.Name;
                 tsmi.Tag = sd;
                 tsmi.Click += new EventHandler(AddStrategyToListView);
-                if(sd.group ==0)
+                if(sd.Group ==0)
                     this.miFfjjStrategy.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmi});
-                else if(sd.group == 1)
+                else if(sd.Group == 1)
                     this.miGpStrategy.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmi});
             }
         }
 
-        /// <summary>
-        /// 策略的描述
-        /// </summary>
-        class StrategyDesc
+        //private StrategyDesc[] LoadStrategyList(String message)
+        //{
+        //    StrategyDesc[] sd = new StrategyDesc[] { new StrategyDesc() };
+        //    string[] item = message.Split(',');
+        //    sd[0].Clazz = item[1];  // "Stock.Strategy.RotationB.RotationBStrategy";
+        //    sd[0].Dll = item[0];    //"Stock.Strategy.RotationB.dll";
+        //    sd[0].Desc = item[3];   // "说明：分级B强势轮动策略";
+        //    sd[0].Name = item[2];   // "分级B强势轮动策略";
+        //    sd[0].Group = int.Parse(item[4]);
+
+        //    return sd;
+        //}
+
+        //private StrategyDesc[] LoadMyStrategyList(String message)
+        //{
+        //    StrategyDesc[] sd = new StrategyDesc[] { new StrategyDesc() };
+
+        //    // FIXME: 不能运行的情况下， 注释157-161行，取消注释152-156行
+        //    //sd[0].clazz = "Stock.Strategy.Python.Rotation.RotationStrategy";
+        //    //sd[0].dllPath = "Stock.Strategy.Python.Rotation.dll";
+        //    //sd[0].desc = "说明：分级A轮动策略";
+        //    //sd[0].name = "T+0 呼吸大法";
+        //    //sd[0].group = 1;
+        //    string[] item = message.Split(',');
+        //    sd[0].Clazz = item[1]; // "Stock.Strategy.RotationB.RotationBStrategy";
+        //    sd[0].Dll = item[0]; //"Stock.Strategy.RotationB.dll";
+        //    sd[0].Desc = item[3]; // "说明：分级B强势轮动策略";
+        //    sd[0].Name = item[2]; // "分级B强势轮动策略";
+        //    sd[0].Group = int.Parse(item[4]);
+
+        //    return sd;
+        //}
+
+        private void InitListView(StrategyDesc[] sds)
         {
-            public String name;
-            public String desc;
-            public String clazz;
-            public String dllPath;
-            public int group;
-            public int id;
-        }
-
-        private StrategyDesc[] LoadStrategyList()
-        {
-            StrategyDesc[] sd = new StrategyDesc[] { new StrategyDesc() };
-            sd[0].clazz = "Stock.Strategy.Python.Rotation.RotationStrategy";
-            sd[0].dllPath = "Stock.Strategy.Python.Rotation.dll";
-            sd[0].desc = "说明：分级A轮动策略";
-            sd[0].name = "T+0 呼吸大法";
-            sd[0].group = 1;
-            //sd[1].clazz = "Stock.Strategy.RotationB.RotationBStrategy";
-            //sd[1].dllPath = "Stock.Strategy.RotationB.dll";
-            //sd[1].desc = "说明：分级B强势轮动策略";
-            //sd[1].name = "分级B强势轮动策略";
-            //sd[1].group = 0;
-
-            return sd;
-        }
-
-        private StrategyDesc[] LoadMyStrategyList()
-        {
-            StrategyDesc[] sd = new StrategyDesc[] { new StrategyDesc() };
-
-            // FIXME: 不能运行的情况下， 注释157-161行，取消注释152-156行
-            //sd[0].clazz = "Stock.Strategy.Python.Rotation.RotationStrategy";
-            //sd[0].dllPath = "Stock.Strategy.Python.Rotation.dll";
-            //sd[0].desc = "说明：分级A轮动策略";
-            //sd[0].name = "T+0 呼吸大法";
-            //sd[0].group = 1;
-            sd[0].clazz = "Stock.Strategy.RotationB.RotationBStrategy";
-            sd[0].dllPath = "Stock.Strategy.RotationB.dll";
-            sd[0].desc = "说明：分级B强势轮动策略";
-            sd[0].name = "分级B强势轮动策略";
-            sd[0].group = 0;
-
-            return sd;
-        }
-
-        private void InitListView()
-        {
-            StrategyDesc[] sds = LoadMyStrategyList();
+            // StrategyDesc[] sds = LoadMyStrategyList(message);
             foreach (StrategyDesc sd in sds)
             {
                 this.AddStrategyToListView(sd);
             }
 
             // this.listView1.Items[0].Selected = true;
-            this.panel1.Controls.Add((Control)this.listView1.Items[0].Tag);
+
+               this.panel1.Controls.Add((Control)this.listView1.Items[0].Tag);
+
 
         }      
 
@@ -184,19 +216,20 @@ namespace StockTrader
         void AddStrategyToListView(object sender, EventArgs e)
         {
             StrategyDesc sd = (StrategyDesc)((ToolStripMenuItem)sender).Tag;
-
+            SqliteHelper.Instance.Save<StrategyDesc>(sd);
             AddStrategyToListView(sd);
         }
 
         private void AddStrategyToListView(StrategyDesc sd)
         {
-            BaseStrategy strategy = (BaseStrategy)StrategyManager.Instance.AddMyStrategy(sd.dllPath, sd.clazz);
-            // BaseStrategy strategy = new Stock.Strategy.RotationB.RotationBStrategy();
+            BaseStrategy strategy = (BaseStrategy)DllUtils.CreateInstance<IStrategy>(sd.Dll, sd.Clazz);
+            strategy.Id = sd.Id;
+            strategy.Init();
             StrategyManager.Instance.AddMyStrategy(strategy);
             System.Windows.Forms.ListViewItem lvi = new System.Windows.Forms.ListViewItem(new string[] {
-                sd.name,
-                sd.desc}, -1);
-            lvi.Group = this.listView1.Groups[sd.group];
+                sd.Name,
+                sd.Desc}, -1);
+            lvi.Group = this.listView1.Groups[sd.Group];
             lvi.Tag = strategy.Control;
             this.listView1.Items.Add(lvi);
         }
@@ -204,7 +237,7 @@ namespace StockTrader
         #region 测试下单
         private void button16_Click(object sender, EventArgs e)
         {
-            xiadan = Stock.Trader.XiaDan.Instance;
+            xiadan = Stock.Account.XiaDan.Instance;
             xiadan.Init();
         }
 
@@ -220,7 +253,7 @@ namespace StockTrader
 
         private void button3_Click(object sender, EventArgs e)
         {
-            //xiadan.CancelStock(textBox1.Text, float.Parse(textBox2.Text), int.Parse(textBox3.Text));
+            // xiadan.CancelStock(textBox1.Text, float.Parse(textBox2.Text), int.Parse(textBox3.Text));
 
         }
 
@@ -267,7 +300,7 @@ namespace StockTrader
        
         private void button9_Click(object sender, EventArgs e)
         {
-            xiadan.RedempteFundSZ(textBox1.Text, int.Parse(textBox3.Text));
+            xiadan.GetTransList();
         }
 
         private void button11_Click(object sender, EventArgs e)
@@ -282,7 +315,13 @@ namespace StockTrader
 
         private void button15_Click(object sender, EventArgs e)
         {
-            xiadan.PurchaseFundSH(textBox1.Text, float.Parse(textBox2.Text));
+            byte[] lParamStr = new byte[100];
+            Win32API.SendMessage(new IntPtr(0x90C0A), Win32Code.WM_GETTEXT, 512, lParamStr);
+            Encoding encoding = Encoding.Unicode;
+            String s = encoding.GetString(lParamStr).TrimEnd();
+            Console.WriteLine(s);
+            int i = s.IndexOf("。");
+            Console.WriteLine("合同号" + s.Substring(17, i-17));
 
         }
 
@@ -349,7 +388,8 @@ namespace StockTrader
 
             lvStockPosition.Items.Clear();
             TradingAccount account = (TradingAccount)this.xiadan.GetCashInfo().Result;
-            foreach (TradingAccount.StockHolderInfo shi in account.StockHolders)
+            if (account == null) return;
+            foreach (StockHolderInfo shi in account.StockHolders)
             {
                 ListViewItem lvi = new ListViewItem(new string[] {shi.StockCode,
                     shi.StockName,
@@ -360,7 +400,7 @@ namespace StockTrader
                     shi.KeepCostPrice.ToString(),
                      shi.LastPrice.ToString(),
                      "0",
-                     shi.IncomeBalance.ToString(),
+                     shi.IncomeAmount.ToString(),
                      shi.MarketValue.ToString(),
                      shi.ExchangeName,
                      shi.StockAccount
@@ -369,28 +409,9 @@ namespace StockTrader
             }
         }
 
-        private void GetTodayTrading()
-        {
-            TradingAccount account = (TradingAccount)this.xiadan.GetCashInfo().Result;
-        }
-
-
         void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
-
             StockTraderManager.Instance.GetStockTrader().Keep();
-            Console.WriteLine("刷新界面持仓数据，运行了{0}ms", watch.ElapsedMilliseconds);
-        }
-
-        private void RefreshPosition()
-        {
-        }
-
-        private void InitDataSource()
-        {
-            
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -398,6 +419,20 @@ namespace StockTrader
             StockMarketManager smm = StockMarketManager.Instance;
             smm.Close();
             base.OnClosing(e);
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            if (xiadan == null) xiadan = XiaDan.Instance;
+            TraderResult result =  this.xiadan.GetCashInfo();
+        }
+
+        private void 删除策略ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int id = ((StrategyControl)this.listView1.SelectedItems[0].Tag).Strategy.Id;
+            this.listView1.Items.Remove(this.listView1.SelectedItems[0]);
+            StrategyDesc sd = SqliteHelper.Instance.Load<StrategyDesc>(id);
+            SqliteHelper.Instance.Delete<StrategyDesc>(sd);
         }
     }
 }

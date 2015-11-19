@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Stock.Trader.Properties {
+namespace Stock.Account.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
