@@ -45,17 +45,6 @@ namespace Stock.Common
         {
             if (stockCode.Length == 6)
             {
-                switch (stockCode.Substring(0, 3))
-                {
-                    case "000":
-                        stockCode = "sh" + stockCode;
-                        return stockCode;
-
-                    case "399":
-                        stockCode = "sz" + stockCode;
-                        return stockCode;
-                }
-
                 switch (stockCode.Substring(0, 2))
                 {
                     case "51":
