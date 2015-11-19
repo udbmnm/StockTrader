@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Stock.Trader.HuaTai
+namespace Stock.Trader
 {
     public class MockStockTrader : BaseStockTrader
     {
