@@ -120,6 +120,38 @@ namespace Stock.Trader.HuaTai
     public class FundGetJjszResp : Response
     {
         public class FundGetJjszRespItem {
+        /*
+        branch_no	N5	分支机构
+        fund_account	C18	资金账户
+        fund_company	C4	基金公司
+        fund_code	C6	基金代码
+        stock_account	C11	证券账号
+        status	C1	状态
+        begin_share	N16.2	基金期初份额
+        current_share	N16.2	基金当前份额
+        business_frozen_share	N16.2	基金交易冻结数量
+        frozen_share	N16.2	基金冻结数量
+        long_frozen_share	N16.2	长期冻结数量
+        allot_date	N8	交易日期
+        allotno	C24	申请编号
+        exchange_name	C8	交易名称
+        fund_name	C32	基金名称
+        nav	N9.3	T-1日基金单位净值
+        market_value	N16.2	证券市值
+        charge_type	C1	前后收费类型
+        enable_shares	N16.2	可用份额
+        auto_buy	C1	自动再投资标志
+        cost_price	N9.3	成本价
+        income_balance	N16.2	盈亏金额
+        begin_amount	N16.2	期初数量
+        current_amount	N16.2	当前数量
+        business_frozen_amount	N16.2	交易冻结数量
+        frozen_amount	N16.2	冻结数量
+        long_frozen_amount	N16.2	长期冻结数量
+        enable_amount	N16.2	可用数量
+        enable_redeem_share	N16.2	基金当日可赎回数量
+        position_str	C32	定位串
+        */  
         }
 
         public List<FundGetJjszRespItem> Item { get; set; }
