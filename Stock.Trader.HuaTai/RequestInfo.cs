@@ -377,7 +377,7 @@ namespace Stock.Trader.HuaTai
         public FundGetJjszRequest()
         {
             cssweb_type = "FUND_GET_JJSZ";
-            function_id = "741";
+            function_id = "7411";
         }
         // uid=153-0679-7959208&cssweb_type=FUND_GET_JJSZ&version=1&custid=666600&op_branch_no=17&
         // branch_no=17&op_entrust_way=7&op_station=IP$192.168.1.1;MAC$00-0C-29-1A-B4-32;HDD$                    &
