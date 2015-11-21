@@ -49,23 +49,24 @@ namespace Stock.Trader.HuaTai
 
         public string custid { get; set; }
 
-        public string op_branch_no { get; set; }
+        public string op_branch_no { get; set; }//操作分支机构
 
-        public string branch_no { get; set; }
+        public string branch_no { get; set; }//分支机构
 
-        public string op_entrust_way { get { return "7"; } }
+        public string op_entrust_way { get { return "7"; } }//委托方式
 
-        public string exchange_type { get; set; }
+        public string exchange_type { get; set; }//交易类别
 
-        public string function_id { get; set; } 
+        public string function_id { get; set; } //系统功能号,  详细功能号参见《经纪业务运营平台V20_周边接口规范_V1.3(20121210)》
 
-        public string fund_account { get; set; }
+        public string fund_account { get; set; }//资金账户
 
-        public string password { get; set; }
+        public string password { get; set; }//密码
+        //password_type ''2'，交易密码
 
-        public string op_station { get; set; }
+        public string op_station { get; set; }//站点地址
 
-        public string identity_type
+        public string identity_type //身份类别
         {
             get
             {
@@ -143,9 +144,9 @@ namespace Stock.Trader.HuaTai
             this.function_id = "302";
         }
 
-        public int entrust_amount { get; set; }
+        public int entrust_amount { get; set; }//委托数量
 
-        public int entrust_bs
+        public int entrust_bs//买卖方向
         {
             get
             {
@@ -153,9 +154,9 @@ namespace Stock.Trader.HuaTai
             }
         }
 
-        public float entrust_price { get; set; }
+        public float entrust_price { get; set; }//委托价格
 
-        public int entrust_prop
+        public int entrust_prop//委托属性
         {
             get
             {
@@ -163,9 +164,9 @@ namespace Stock.Trader.HuaTai
             }
         }
 
-        public string stock_account { get; set; }
+        public string stock_account { get; set; }//证券账号
 
-        public string stock_code { get; set; }
+        public string stock_code { get; set; }//证券代码
 
     }
 
@@ -185,9 +186,9 @@ namespace Stock.Trader.HuaTai
             cssweb_type = "STOCK_SELL";
             function_id = "302";
         }
-        public int entrust_amount { get; set; }
+        public int entrust_amount { get; set; }//委托数量
 
-        public int entrust_bs
+        public int entrust_bs//买卖方向
         {
             get
             {
@@ -195,9 +196,9 @@ namespace Stock.Trader.HuaTai
             }
         }
 
-        public float entrust_price { get; set; }
+        public float entrust_price { get; set; }//委托价格
 
-        public int entrust_prop
+        public int entrust_prop//委托属性
         {
             get
             {
@@ -205,9 +206,9 @@ namespace Stock.Trader.HuaTai
             }
         }
 
-        public string stock_account { get; set; }
+        public string stock_account { get; set; }//证券账号
 
-        public string stock_code { get; set; }
+        public string stock_code { get; set; }//证券代码
      
     }
 
@@ -228,13 +229,16 @@ namespace Stock.Trader.HuaTai
             function_id = "401";
         }
 
-        public string stock_account { get; set; }
-        public string stock_code { get; set; }
-        public string locate_entrust_no {get{return "";} }
-        public string query_direction { get{return "";}}
-        public int sort_direction { get { return 0; } }
-        public int request_num { get { return 100; } }
-        public string position_str { get{return "";}}
+        public string stock_account { get; set; }//证券账号 空格，表示不限制
+        public string stock_code { get; set; }//证券代码 空格，表示不限制
+        public string locate_entrust_no {get{return "";} }//指定编号，action_in：2-委托批号，非2-委托编号 0，表示不限制
+        public string query_direction { get{return "";}}//查询方向　'1'-正序　'0'-逆序
+        public int sort_direction { get { return 0; } }//返回排序方式 '0'-正常 '1'-倒序
+        public int request_num { get { return 100; } }//请求行数
+        public string position_str { get{return "";}}//定位串
+        //action_in 操作控制值，0-查询全部委托；1-查询可撤委托；2-按批号查询（通过locate_entrust_no送入）
+        //query_type 查询类别　'0'-全部；'1'-不查委托类型为撤单的委托
+        //query_mode 查询模式　0/空格-查明细，2-按交易类别、证券账号、证券代码、买卖类别汇总
     }
 
     /// <summary>
@@ -251,13 +255,16 @@ namespace Stock.Trader.HuaTai
             cssweb_type = "GET_TODAY_ENTRUST";
             function_id = "401";
         }
-        public string stock_account { get; set; }
-        public string stock_code { get; set; }
-        public string locate_entrust_no { get; set; }
-        public string query_direction { get; set; }
-        public int sort_direction { get { return 0; } }
-        public int request_num { get { return 100; } }
-        public string position_str { get; set; }
+        public string stock_account { get; set; }//证券账号 空格，表示不限制
+        public string stock_code { get; set; }//证券代码 空格，表示不限制
+        public string locate_entrust_no { get; set; }//指定编号，action_in：2-委托批号，非2-委托编号 0，表示不限制
+        public string query_direction { get; set; }//查询方向　'1'-正序　'0'-逆序
+        public int sort_direction { get { return 0; } }//返回排序方式 '0'-正常 '1'-倒序
+        public int request_num { get { return 100; } }//请求行数
+        public string position_str { get; set; }//定位串
+        //action_in 操作控制值，0-查询全部委托；1-查询可撤委托；2-按批号查询（通过locate_entrust_no送入）
+        //query_type 查询类别　'0'-全部；'1'-不查委托类型为撤单的委托
+        //query_mode 查询模式　0/空格-查明细，2-按交易类别、证券账号、证券代码、买卖类别汇总
     }
 
     /// <summary>
@@ -283,14 +290,15 @@ namespace Stock.Trader.HuaTai
             function_id = "304";
         }
 
-        public string batch_flag
+        public string batch_flag//批量标志 '0'单笔 '1'批量
         {
             get
             {
                 return "0";
             }
         }
-        public string entrust_no { get; set; }
+        public string entrust_no { get; set; }//委托编号（batch_flag-'0'，委托编号；batch_flag-'1'，委托批号（委托批号为0表示批量撤销客户指定市场所有订单））
+        //0，要求必须送入exchange_type
 
         // uid=153-759d-7924950&cssweb_type=STOCK_CANCEL&version=1&custid=666600111111&
         // op_branch_no=17&branch_no=17&op_entrust_way=7&op_station=IP$192.168.1.1;MAC$00-0D-27-1A-B4-32;HDD$                    &
@@ -316,16 +324,23 @@ namespace Stock.Trader.HuaTai
             function_id = "402";
         }
 
-        public string stock_account { get { return ""; } }
-        public string stock_code { get { return ""; } }
-        public string locate_entrust_no { get { return ""; } }
-        public string query_direction { get { return "1"; } }
-        public string serial_no { get { return ""; } }
-        public int sort_direction { get { return 0; } }
-        public int request_num { get { return 100; } }
-        public string position_str { get { return ""; } }
-        public string query_mode { get { return "0"; } }
-
+        public string stock_account { get { return ""; } }//证券账号
+        public string stock_code { get { return ""; } }//证券代码
+        public string locate_entrust_no { get { return ""; } }//
+        public string query_direction { get { return "1"; } }//查询方向　'1'-正序　'0'-逆序
+        public string serial_no { get { return ""; } }//流水序号（query_mode=4时，表示委托号）
+        public int sort_direction { get { return 0; } }//
+        public int request_num { get { return 100; } }//请求行数，不送按50行处理
+        public string position_str { get { return ""; } }//定位串  空格，表示取第一页
+        public string query_mode { get { return "0"; } }//查询模式，参见业务说明
+        /*
+        query_mode说明：
+        '0'-取实时成交流水（是否返回撤单成交由系统配置决定）
+        '1'-按照交易类别、席位号、申报号汇总实时成交流水（合笔）
+        '2'-按照交易类别、证券账号、证券代码、买卖类别汇总实时成交流水（合笔）
+        '3'-按照交易类别、证券代码、委托买卖类别、委托属性、成交类别、成交状态汇总实时成交流水（合笔）
+        '4'-取实时成交流水，查询指定委托号（由serial_no输入）的成交明细记录（明细）
+        */
     }
 
     /// <summary>
@@ -345,12 +360,12 @@ namespace Stock.Trader.HuaTai
             function_id = "403";
         }
 
-        public string position_str{ get { return ""; } }
+        public string position_str{ get { return ""; } }//定位串 空格，表示取第一页
         public string query_direction { get { return ""; } }
-        public int query_mode { get { return 0; } }
-        public int request_num { get { return 100; } }
-        public string stock_account { get { return ""; } }
-        public string stock_code { get { return ""; } }
+        public int query_mode { get { return 0; } }//查询模式，'0'-明细 '1'-汇总(营业部、交易类别和证券代码汇总证券信息)
+        public int request_num { get { return 100; } }//请求行数（不能超过1000）
+        public string stock_account { get { return ""; } }//证券账号
+        public string stock_code { get { return ""; } }//证券代码
 
     }
 
@@ -369,7 +384,7 @@ namespace Stock.Trader.HuaTai
             function_id = "405";
         }
 
-        public string money_type { get { return ""; } }
+        public string money_type { get { return ""; } }//币种类别 空格，表示不限制
     }
 
     public class FundGetJjszRequest : Request
@@ -377,14 +392,14 @@ namespace Stock.Trader.HuaTai
         public FundGetJjszRequest()
         {
             cssweb_type = "FUND_GET_JJSZ";
-            function_id = "741";
+            function_id = "741";// FIXME ? 7411
         }
         // uid=153-0679-7959208&cssweb_type=FUND_GET_JJSZ&version=1&custid=666600&op_branch_no=17&
         // branch_no=17&op_entrust_way=7&op_station=IP$192.168.1.1;MAC$00-0C-29-1A-B4-32;HDD$                    &
         // function_id=7411&fund_account=666600&password=ojCz+oMyy5hf/iTA$$&identity_type=&
         // fund_company=&fund_code=&query_mode=0&ram=0.3891886440105736
-        public string fund_company { get{return "";}}
-        public string fund_code { get { return ""; } }
+        public string fund_company { get{return "";}}//基金公司 空格，表示不限制
+        public string fund_code { get { return ""; } }//基金代码 空格，表示不限制
         public string query_mode { get { return "0"; } }
     }
 
