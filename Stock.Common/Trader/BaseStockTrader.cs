@@ -188,44 +188,5 @@ namespace Stock.Trader
         }
 
 
-        public string PurchaseFundSZ(string code, float total)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string RedempteFundSZ(string code, int num)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string MergeFundSZ(string code, int num)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string PartFundSZ(string code, int num)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string PurchaseFundSH(string code, float total)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string RedempteFundSH(string code, int num)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string MergeFundSH(string code, int num)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string PartFundSH(string code, int num)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

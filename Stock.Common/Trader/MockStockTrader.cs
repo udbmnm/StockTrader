@@ -54,5 +54,13 @@ namespace Stock.Trader
             result.EntrustNo = new Random().Next();
             return result;
         }
+
+        protected override TraderResult internalGetTradingAccountInfo()
+        {
+            TraderResult result = new TraderResult();
+            result.Code = TraderResultEnum.SUCCESS;
+
+            return result;
+        }
     }
 }

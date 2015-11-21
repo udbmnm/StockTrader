@@ -64,7 +64,11 @@ namespace System.Window
 			public static extern int GetDIBits(IntPtr hDC, IntPtr hbm, int StartScan, int ScanLines, int lpBits, BITMAPINFOHEADER bmi, int usage);
 		[DllImport("gdi32")]
 			public static extern int GetDIBits(IntPtr hdc, IntPtr hbm, int StartScan, int ScanLines, int lpBits, ref BITMAPINFO_FLAT bmi, int usage);
-		[DllImport("gdi32")]
+
+        [DllImport("kernel32.dll")]
+        public static extern uint GetTickCount(); 
+
+        [DllImport("gdi32")]
 			public static extern IntPtr GetPaletteEntries(IntPtr hpal, int iStartIndex, int nEntries, byte[] lppe);
 		[DllImport("gdi32")]
 			public static extern IntPtr GetSystemPaletteEntries(IntPtr hdc, int iStartIndex, int nEntries, byte[] lppe);
@@ -241,8 +245,12 @@ namespace System.Window
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
 			public static extern int GetWindowText(IntPtr hWnd, out STRINGBUFFER text, int maxCount);
 		[DllImport("user32.dll", CharSet=CharSet.Auto)]
-			static public extern int SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam); 
-		[DllImport("user32.dll", CharSet=CharSet.Auto)] 
+			static public extern int SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int SendDlgItemMessage(IntPtr hPanel, int id, int Msg, int wParam, string lParam);
+
+        [DllImport("user32.dll", CharSet=CharSet.Auto)] 
 			static public extern IntPtr SetClipboardViewer(IntPtr hWndNewViewer); 
 		[DllImport("user32.dll", CharSet=CharSet.Auto)]
 			static public extern int ChangeClipboardChain(IntPtr hWndRemove, IntPtr hWndNewNext);

@@ -49,9 +49,18 @@ namespace Stock.Common
         /// <param name="message"></param>
         public void WriteLog(Type t, String message)
         {
-            if (OnLogArrived != null)
-                OnLogArrived(t, message);
+            WriteLog(t, message, false);
         }
+        public void WriteLog(Type t, String message, bool showInUI)
+        {
+            if (showInUI)
+            {
+                if (OnLogArrived != null)
+                    OnLogArrived(t, message);
+            }
+        }
+
+
 
         /// <summary>
         /// 写错误发生时的LOG
@@ -61,8 +70,7 @@ namespace Stock.Common
         /// <param name="ex"></param>
         public void WriteErrorLog(Type t, String message, Exception ex)
         {
-            if (OnLogArrived != null)
-                OnLogArrived(t, "Error: " + message);
         }
+
     }
 }

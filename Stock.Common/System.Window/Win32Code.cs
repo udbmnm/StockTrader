@@ -241,7 +241,7 @@ namespace System.Window
         public const int MK_SHIFT = 0x04;
         public const int MK_CONTROL = 0x08;
         public const int MK_MBUTTON = 0x10;
-
-
+        public const int WM_COMMAND = 0x0111;
+        public const uint PM_REMOVE = 0x0001;
     }
 }
