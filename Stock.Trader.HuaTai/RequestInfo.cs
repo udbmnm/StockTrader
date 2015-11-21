@@ -290,7 +290,7 @@ namespace Stock.Trader.HuaTai
             function_id = "304";
         }
 
-        public string batch_flag
+        public string batch_flag//批量标志 '0'单笔 '1'批量
         {
             get
             {
@@ -298,7 +298,7 @@ namespace Stock.Trader.HuaTai
             }
         }
         public string entrust_no { get; set; }//委托编号（batch_flag-'0'，委托编号；batch_flag-'1'，委托批号（委托批号为0表示批量撤销客户指定市场所有订单））
-        //batch_flag 批量标志 '0'单笔 '1'批量
+        //0，要求必须送入exchange_type
 
         // uid=153-759d-7924950&cssweb_type=STOCK_CANCEL&version=1&custid=666600111111&
         // op_branch_no=17&branch_no=17&op_entrust_way=7&op_station=IP$192.168.1.1;MAC$00-0D-27-1A-B4-32;HDD$                    &
