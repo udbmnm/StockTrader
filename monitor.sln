@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stock.Formula", "Stock.Form
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stock.Trader.Ths", "..\StockTraderPrivate\Stock.Trader.Ths\Stock.Trader.Ths.csproj", "{8AC746E0-DBDD-435C-BB07-9FD31646BFFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XueQiu", "..\StockTraderPrivate\XueQiu\XueQiu.csproj", "{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_Ubuntu|Any CPU = Debug_Ubuntu|Any CPU
@@ -361,6 +363,36 @@ Global
 		{8AC746E0-DBDD-435C-BB07-9FD31646BFFB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8AC746E0-DBDD-435C-BB07-9FD31646BFFB}.Release|x86.ActiveCfg = Release|Any CPU
 		{8AC746E0-DBDD-435C-BB07-9FD31646BFFB}.Release|x86.Build.0 = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Debug_Ubuntu|Any CPU.ActiveCfg = Debug|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Debug_Ubuntu|Any CPU.Build.0 = Debug|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Debug_Ubuntu|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Debug_Ubuntu|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Debug_Ubuntu|x86.ActiveCfg = Debug|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Debug_Ubuntu|x86.Build.0 = Debug|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Debug|x86.Build.0 = Debug|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Minimum|Any CPU.ActiveCfg = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Minimum|Any CPU.Build.0 = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Minimum|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Minimum|Mixed Platforms.Build.0 = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Minimum|x86.ActiveCfg = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Minimum|x86.Build.0 = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Release_Ubuntu|Any CPU.ActiveCfg = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Release_Ubuntu|Any CPU.Build.0 = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Release_Ubuntu|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Release_Ubuntu|Mixed Platforms.Build.0 = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Release_Ubuntu|x86.ActiveCfg = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Release_Ubuntu|x86.Build.0 = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Release|x86.ActiveCfg = Release|Any CPU
+		{F86B2B4B-D218-432D-991F-BAFF84E0BF0D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

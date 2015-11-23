@@ -31,6 +31,14 @@ namespace Stock.Trader
 {
     public abstract class BaseStockTrader : IStockTrader
     {
+        public event TurnoverReturnHandler OnTurnoverReturn;
+
+        protected void StockTrader_OnTurnOverReturn(int entrustNo, String code, float price, int amount)
+        {
+            if (OnTurnoverReturn != null)
+                OnTurnoverReturn(entrustNo, code, price, amount);
+        }
+
         public virtual void Init()
         {
             throw new NotImplementedException();

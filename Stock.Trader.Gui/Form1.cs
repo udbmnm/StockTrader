@@ -65,7 +65,11 @@ namespace StockTrader
 
         private void LogHelper_OnLogArrived(Type t, string log)
         {
-            txtLog.AppendText(String.Format("时间：{0}, {1}\r\n", DateTime.Now, log));
+            this.Invoke((MethodInvoker)delegate
+            {
+                txtLog.AppendText(String.Format("时间：{0}, {1}\r\n", DateTime.Now, log));
+            });
+
         }
 
         protected override void OnLoad(EventArgs e)

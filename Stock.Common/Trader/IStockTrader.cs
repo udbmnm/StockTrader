@@ -30,11 +30,13 @@ using Stock.Account;
 
 namespace Stock.Trader
 {
+    public delegate void TurnoverReturnHandler(int entrustNo, String code, float price, int amount);
     /// <summary>
     /// 所有的交易实现 必须实现这个接口
     /// </summary>
     public interface IStockTrader
     {
+        event TurnoverReturnHandler OnTurnoverReturn;
         void Init();
 
         /// <summary>

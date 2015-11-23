@@ -178,6 +178,12 @@ namespace Stock.Strategy
         public virtual void Init()
         {
             // trader.Init();
+            trader.OnTurnoverReturn += new TurnoverReturnHandler(Trader_OnTurnoverReturn);
+        }
+
+        protected virtual void Trader_OnTurnoverReturn(int entrustNo, string code, float price, int amount)
+        {
+            throw new NotImplementedException();
         }
 
         public virtual TraderResult SellStock(string code, float price, int num)
@@ -320,6 +326,7 @@ namespace Stock.Strategy
 
         public delegate void SellStockHandler(string code, float price, int num);
         public event SellStockHandler sellStockEventHandler;
+        public event TurnoverReturnHandler OnTurnoverReturn;
 
         //private delegate string SellStock(string code, float price, int num);
         //private void executeThreadWithTimeout(Action action, int timeoutMilliseconds)
