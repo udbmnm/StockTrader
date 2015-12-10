@@ -45,6 +45,7 @@ namespace Stock.Formula
             {
                 list.Add(v1[i] + v1[i]);
             }
+            
             return list;
         }
 

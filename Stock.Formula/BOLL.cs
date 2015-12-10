@@ -28,7 +28,7 @@ using System.Text;
 
 namespace Stock.Formula
 {
-    class BOLL : AbstractFormula, IFormula
+    class BOLL : AbstractFormula, IIndicator
     {
         private ValueList UPPER;
         private ValueList LOWER;

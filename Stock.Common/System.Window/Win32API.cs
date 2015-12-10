@@ -20,10 +20,11 @@ namespace System.Window
         #region CallBacks
 		public delegate IntPtr HookProc(int nCode, IntPtr wParam, IntPtr lParam);
         public delegate bool EnumWindowsProc(IntPtr hWnd, int lParam);
+        public delegate bool EnumWindowsProc1(IntPtr hWnd, ref IntPtr lParam);
         #endregion
 
-		#region Kernel32.dll functions
-		[DllImport("kernel32.dll", ExactSpelling=true, CharSet=CharSet.Auto)]
+        #region Kernel32.dll functions
+        [DllImport("kernel32.dll", ExactSpelling=true, CharSet=CharSet.Auto)]
 			public static extern int GetCurrentThreadId();
         [DllImport("kernel32.dll")]
             public static extern IntPtr LoadLibrary(string path);
@@ -98,6 +99,8 @@ namespace System.Window
             public static extern IntPtr FindWindowEx(IntPtr hWnd, IntPtr hwndChildAfter, string lpClassName, string lpWindowName);
         [DllImport("User32.dll", EntryPoint = "EnumWindows")]
             public static extern IntPtr EnumWindows(EnumWindowsProc ewp, int lParam);
+        [DllImport("User32.dll", EntryPoint = "EnumWindows")]
+        public static extern IntPtr EnumWindows(EnumWindowsProc1 ewp, ref IntPtr lParam);
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool EnumChildWindows(IntPtr hwndParent, EnumWindowsProc lpEnumFunc, IntPtr lParam);

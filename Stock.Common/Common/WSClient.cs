@@ -67,9 +67,9 @@ namespace Stock.Common
 
         private void timerCall(object obj)
         {
-            if(wsChat.ReadyState == WebSocketState.Open)
+//            if (wsChat.ReadyState == WebSocketState.Open)
                 wsChat.Ping();
-//            this.SendMessage("91: ping");
+            this.SendMessage("91: ping");
         }
  
         const string SERVER = "server";
@@ -83,7 +83,7 @@ namespace Stock.Common
         private EventHandler<MessageEventArgs> messageHandler;
         public void InitWebSocket()
         {
-            // form.Show();
+            form.Show();
             showForm = ShowNotifyForm;
 
             wsChat = new WebSocket(String.Format("ws://{0}/websock/stockmarket", Configure.GetStockTraderItem(SERVER)));

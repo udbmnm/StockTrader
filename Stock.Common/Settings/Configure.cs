@@ -37,6 +37,7 @@ namespace Stock.Account.Settings
         public static Clazz GetCurrentMarketListener()
         {
             IDictionary cs = (IDictionary)ConfigurationManager.GetSection("CurrentMarketListener");
+            if (cs == null || cs.Count == 0) return null;
             return new Clazz
             {
                 Dll = cs["dll"].ToString(),

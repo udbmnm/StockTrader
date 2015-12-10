@@ -81,5 +81,7 @@ namespace Stock.Strategy
         /// 初始化
         /// </summary>
         void Init();
+
+        void Close();
     }
 }

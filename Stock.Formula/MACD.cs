@@ -28,7 +28,7 @@ using System.Text;
 
 namespace Stock.Formula
 {
-    public class MACD : AbstractFormula, IFormula
+    public class MACD : AbstractFormula, IIndicator
     {
         private int s, l, m;
         ValueList DIFF, DEA, macd;

@@ -50,19 +50,22 @@ namespace Stock.Trader
 
         public TraderResult SellStock(string code, float price, int num)
         {
-            TraderResult ret = internalSellStock(code, price, num);
-            switch (ret.Code)
+            lock (this)
             {
-                case TraderResultEnum.TIMEOUT:
-                    return SellStock(code, price, num);
-                case TraderResultEnum.UNLOGIN:
-                    Login();
-                    return SellStock(code, price, num);
-                case TraderResultEnum.ERROR:
-                case TraderResultEnum.SUCCESS:
-                    return ret;
-                default:
-                    return null;
+                TraderResult ret = internalSellStock(code, price, num);
+                switch (ret.Code)
+                {
+                    case TraderResultEnum.TIMEOUT:
+                        return SellStock(code, price, num);
+                    case TraderResultEnum.UNLOGIN:
+                        Login();
+                        return SellStock(code, price, num);
+                    case TraderResultEnum.ERROR:
+                    case TraderResultEnum.SUCCESS:
+                        return ret;
+                    default:
+                        return null;
+                }
             }
         }
 
@@ -73,19 +76,22 @@ namespace Stock.Trader
 
         public TraderResult BuyStock(string code, float price, int num)
         {
-            TraderResult ret = internalBuyStock(code, price, num);
-            switch (ret.Code)
+            lock(this)
             {
-                case TraderResultEnum.TIMEOUT:
-                    return BuyStock(code, price, num);
-                case TraderResultEnum.UNLOGIN:
-                    Login();
-                    return BuyStock(code, price, num);
-                case TraderResultEnum.ERROR:
-                case TraderResultEnum.SUCCESS:
-                    return ret;
-                default:
-                    return null;
+                TraderResult ret = internalBuyStock(code, price, num);
+                switch (ret.Code)
+                {
+                    case TraderResultEnum.TIMEOUT:
+                        return BuyStock(code, price, num);
+                    case TraderResultEnum.UNLOGIN:
+                        Login();
+                        return BuyStock(code, price, num);
+                    case TraderResultEnum.ERROR:
+                    case TraderResultEnum.SUCCESS:
+                        return ret;
+                    default:
+                        return null;
+                }
             }
         }
 

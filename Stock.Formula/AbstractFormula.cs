@@ -28,7 +28,7 @@ using System.Text;
 
 namespace Stock.Formula
 {
-    public class AbstractFormula
+    public abstract class AbstractFormula
     {
         private IList<IStockData> stocks;
 

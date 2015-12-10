@@ -369,6 +369,7 @@ namespace StockTrader
             this.textBox5.Size = new System.Drawing.Size(102, 21);
             this.textBox5.TabIndex = 54;
             this.textBox5.Text = "GBK";
+            this.textBox5.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox5_KeyDown);
             // 
             // button4
             // 

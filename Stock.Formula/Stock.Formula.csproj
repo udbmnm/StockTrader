@@ -42,7 +42,8 @@
   <ItemGroup>
     <Compile Include="AbstractFormula.cs" />
     <Compile Include="BOLL.cs" />
-    <Compile Include="IFormula.cs" />
+    <Compile Include="IComplexIndicator.cs" />
+    <Compile Include="IIndicator.cs" />
     <Compile Include="IStockData.cs" />
     <Compile Include="LCD.cs" />
     <Compile Include="MACD.cs" />

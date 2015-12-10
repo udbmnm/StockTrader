@@ -84,7 +84,7 @@ namespace StockTrader
         void ReceivedAllStrategy(string message)
         {
             // FIXME:
-            StrategyDesc sd1 = new StrategyDesc
+            StrategyDesc sd0 = new StrategyDesc
             {
                 Name = "python策略示例",
                 Desc = "策略示例",
@@ -94,10 +94,20 @@ namespace StockTrader
                 Group = 0,
                 Date = DateTime.Now
             };
+            StrategyDesc sd1 = new StrategyDesc
+            {
+                Name = "雪球策略",
+                Desc = "跟踪雪球策略",
+                Dll = "Stock.Strategy.XueQiu.dll",
+                Clazz = "Stock.Strategy.XueQiu.TraceXueQiuStrategy",
+                Enabled = true,
+                Group = 0,
+                Date = DateTime.Now
+            };
             this.Invoke((MethodInvoker)delegate
             {
                 // 从服务器获取策略数据，
-                StrategyDesc[] sds = new StrategyDesc[] { sd1 };  // LoadStrategyList(message);
+                StrategyDesc[] sds = new StrategyDesc[] { sd0, sd1 };  // LoadStrategyList(message);
                 InitStrategyMenu(sds.ToArray<StrategyDesc>());
             });
         }
@@ -150,7 +160,6 @@ namespace StockTrader
         /// </summary>
         private void InitStrategyMenu(StrategyDesc[] sds)
         {
-
             foreach (var sd in sds)
             {
                 ToolStripMenuItem tsmi = new ToolStripMenuItem();
@@ -319,13 +328,13 @@ namespace StockTrader
 
         private void button15_Click(object sender, EventArgs e)
         {
-            byte[] lParamStr = new byte[100];
-            Win32API.SendMessage(new IntPtr(0x90C0A), Win32Code.WM_GETTEXT, 512, lParamStr);
-            Encoding encoding = Encoding.Unicode;
-            String s = encoding.GetString(lParamStr).TrimEnd();
-            Console.WriteLine(s);
-            int i = s.IndexOf("。");
-            Console.WriteLine("合同号" + s.Substring(17, i-17));
+            //byte[] lParamStr = new byte[100];
+            //Win32API.SendMessage(new IntPtr(0x90C0A), Win32Code.WM_GETTEXT, 512, lParamStr);
+            //Encoding encoding = Encoding.Unicode;
+            //String s = encoding.GetString(lParamStr).TrimEnd();
+            //Console.WriteLine(s);
+            //int i = s.IndexOf("。");
+            //Console.WriteLine("合同号" + s.Substring(17, i-17));
 
         }
 
@@ -336,12 +345,25 @@ namespace StockTrader
 
         private void button13_Click(object sender, EventArgs e)
         {
-            xiadan.MergeFundSH(textBox1.Text, int.Parse(textBox3.Text));
+            // xiadan.MergeFundSH(textBox1.Text, int.Parse(textBox3.Text));
         }
 
         private void button12_Click(object sender, EventArgs e)
         {
-            xiadan.PartFundSH(textBox1.Text, int.Parse(textBox3.Text));
+            // FormXueQiu xq = new FormXueQiu();
+            HttpClient client = new HttpClient();
+            client.Get("http://www.xueqiu.com", Encoding.UTF8);
+            String postString = "username=&areacode=86&telephone=13305278179&remember_me=1&password=1C63129AE9DB9C60C3E8AA94D3E00495";
+            byte[] postData = Encoding.UTF8.GetBytes(postString);
+            byte[] responseData = client.UploadData("http://xueqiu.com/user/login", "POST", postData);
+            responseData = client.UploadData("http://xueqiu.com/user/login", "POST", postData);
+            string signInfo = Encoding.UTF8.GetString(responseData);//解码  
+            LogHelper.Instance.WriteLog(null, signInfo, true);
+            client.Timeout = 0xea00;
+            string comet = "https://im6.xueqiu.com/im-comet/v2/notifications/5540144/comet.json?user_id=6423737446&_=1448455307764";
+            String s = client.DownloadString(comet);
+
+            LogHelper.Instance.WriteLog(null, s, true);
         }
         #endregion
 
@@ -364,6 +386,8 @@ namespace StockTrader
         private void button5_Click(object sender, EventArgs e)
         {
             _Start();
+            this.button5.Enabled = false;
+            MessageBox.Show("成功启动");
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -422,6 +446,8 @@ namespace StockTrader
         {
             StockMarketManager smm = StockMarketManager.Instance;
             smm.Close();
+
+            StrategyManager.Instance.Close();
             base.OnClosing(e);
         }
 
@@ -437,6 +463,13 @@ namespace StockTrader
             this.listView1.Items.Remove(this.listView1.SelectedItems[0]);
             StrategyDesc sd = SqliteHelper.Instance.Load<StrategyDesc>(id);
             SqliteHelper.Instance.Delete<StrategyDesc>(sd);
+        }
+
+        private void textBox5_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+            }
         }
     }
 }

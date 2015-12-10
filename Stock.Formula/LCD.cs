@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Stock.Formula
 {
-    public class LCD : AbstractFormula, IFormula
+    public class LCD : AbstractFormula, IIndicator
     {
         private int k;
         public LCD(int K)

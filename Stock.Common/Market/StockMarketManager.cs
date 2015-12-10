@@ -85,15 +85,19 @@ namespace Stock.Market
             if (started)
                 throw new Exception();
 
-            rsmt = DllUtils.CreateInstance<StockMarketListener>(Configure.GetCurrentMarketListener().Dll, Configure.GetCurrentMarketListener().ClazzName);
-            foreach (string code in StockMarketManager.bidCache.Keys)
+            Configure.Clazz clazz = Configure.GetCurrentMarketListener();
+            if (clazz != null)
             {
-                rsmt.AddStock(code);
+                rsmt = DllUtils.CreateInstance<StockMarketListener>(clazz.Dll, clazz.ClazzName);
+                foreach (string code in StockMarketManager.bidCache.Keys)
+                {
+                    rsmt.AddStock(code);
+                }
+                rsmt.Init();
+                rsmt.Run();
+                //listenThread = new Thread(new ThreadStart(rsmt.Run));
+                //listenThread.Start();
             }
-            rsmt.Init();
-            rsmt.Run();
-            //listenThread = new Thread(new ThreadStart(rsmt.Run));
-            //listenThread.Start();
 
             timer.Start();
             timer.Elapsed += new System.Timers.ElapsedEventHandler(Timer_TimesUp);
@@ -103,14 +107,22 @@ namespace Stock.Market
         {
             if(rsmt != null)
                 rsmt.Close();
+
+            foreach (IStrategy item in strategyList)
+            {
+                item.Close();
+            }
         }
 
+        private IList<IStrategy> strategyList = new List<IStrategy>();
         /// <summary>
         /// 在行情市场中登记一个策略，每个ticket，调用一次策略。
         /// </summary>
         /// <param name="strategy">策略实例</param>
         public void RegisterStrategy(IStrategy strategy)
         {
+            if (strategyList.Contains(strategy)) return;
+            strategyList.Add(strategy);
             if (strategy.Enabled)
             {
                 foreach (string s in strategy.StockPool)

@@ -266,7 +266,8 @@ namespace Stock.Common
                 {
                     request2.Referer = this.Referer;
                 }
-                request2.UserAgent = "Mozilla/5.0 (Windows; U; Windows NT 6.0; zh-CN; rv:1.9.0.5) Gecko/2008120122 Firefox/3.0.5)";
+                // request2.UserAgent = "Baiduspider + (+http://www.baidu.com/search/spider.htm)";
+               request2.UserAgent = "Mozilla/5.0 (Windows; U; Windows NT 6.0; zh-CN; rv:1.9.0.5) Gecko/2008120122 Firefox/3.0.5)";
                 if (this.Referer != "")
                 {
                     request2.Referer = this.Referer;

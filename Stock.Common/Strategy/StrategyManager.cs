@@ -78,7 +78,6 @@ namespace Stock.Strategy
         {
             this.myStrategies.Add(strategy);
 
-            // TODO: 保存
         }
 
         public IStrategy AddMyStrategy(String dllPath, String clazz)
@@ -94,6 +93,11 @@ namespace Stock.Strategy
         /// </summary>
         /// <param name="strategy"></param>
         public void DeleteMyStrategy(IStrategy strategy)
+        {
+            
+        }
+
+        public void Close()
         {
             
         }

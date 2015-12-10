@@ -181,15 +181,20 @@ namespace Stock.Strategy
             trader.OnTurnoverReturn += new TurnoverReturnHandler(Trader_OnTurnoverReturn);
         }
 
+        public virtual void Close()
+        {
+        }
+
         protected virtual void Trader_OnTurnoverReturn(int entrustNo, string code, float price, int amount)
         {
             throw new NotImplementedException();
         }
 
-        public virtual TraderResult SellStock(string code, float price, int num)
+        public virtual TraderResult SellStock(string code, float price, int amount)
         {
-            LogHelper.Instance.WriteLog(this.GetType(),"BaseStrategy.SellStock");
-            TraderResult result = trader.SellStock(code, price, num);
+            LogHelper.Instance.WriteLog(null, String.Format("开始卖出股票{0}, {1}股，单价{2}", code, amount, price), true);
+            TraderResult result = trader.SellStock(code, price, amount);
+            LogHelper.Instance.WriteLog(null, String.Format("成功卖出股票{0}, {1}股，单价{2}", code, amount, price), true);
             switch (result.Code)
             {
                 case TraderResultEnum.ERROR:
@@ -199,14 +204,14 @@ namespace Stock.Strategy
                     AddEntrustNo(result.EntrustNo);
                     break;
             }
-            WSClient.Instance.SendMessage(String.Format("SellStock(code {0}, price {1}, num {2})", code, price, num));
+            WSClient.Instance.SendMessage(String.Format("SellStock(code {0}, price {1}, amount {2})", code, price, amount));
             return result;
         }
 
-        public virtual TraderResult BuyStock(string code, float price, int num)
+        public virtual TraderResult BuyStock(string code, float price, int amount)
         {
             LogHelper.Instance.WriteLog(this.GetType(), "BaseStrategy.BuyStock");
-            TraderResult result =trader.BuyStock(code, price, num);
+            TraderResult result =trader.BuyStock(code, price, amount);
             switch (result.Code)
             {
                 case TraderResultEnum.ERROR:
@@ -216,7 +221,9 @@ namespace Stock.Strategy
                     AddEntrustNo(result.EntrustNo);
                     break;
             }
-            WSClient.Instance.SendMessage(String.Format("BuyStock(code {0}, price {1}, num {2})", code, price, num));
+            WSClient.Instance.SendMessage(String.Format("BuyStock(code {0}, price {1}, amount {2})", code, price, amount));
+            LogHelper.Instance.WriteLog(null, String.Format("买入股票{0}, {1}股，单价{2}", code, amount, price), true);
+
             return result;
         }
 
